@@ -1,7 +1,7 @@
 package com.example.luminosity.networking
 
 import com.example.luminosity.models.*
-import com.squareup.moshi.JsonClass
+import com.example.luminosity.paging.SearchResult
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -14,6 +14,11 @@ interface UnsplashApi {
         @Query("page") page: Int,
         @Query("per_page") perPage: Int
     ): List<Photo>
+
+    @GET(value = "/photos/{id}")
+    suspend fun getPhotoDetails(
+        @Path("id") id: String
+    ): PhotoDetails
 
     @GET(value = "/collections")
     suspend fun getListCollections(@Query("page") page: Int): List<CollectionPhoto>
@@ -36,7 +41,8 @@ interface UnsplashApi {
     @GET(value = "/search/photos")
     suspend fun searchPhotosByKey(
         @Query("query") query: String,
-        @Query("per_page") perPage:Int = 10
+        @Query("page") page: Int,
+        @Query("per_page") perPage:Int
     ): SearchResult
 
     @POST(value = "/photos/{id}/like")

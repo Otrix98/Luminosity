@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ContentValues
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -11,13 +12,11 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.luminosity.data.Constants.ITEMS_PER_PAGE
 import com.example.luminosity.db.UnsplashDatabase
-import com.example.luminosity.models.CollectionPhoto
-import com.example.luminosity.models.DetailUserProfile
 import com.example.luminosity.models.Photo
-import com.example.luminosity.models.UserProfile
+import com.example.luminosity.models.PhotoDetails
 import com.example.luminosity.networking.UnsplashApi
-import com.example.luminosity.paging.RemoteMediator
-import com.example.luminosity.paging.SearchPagingSource
+import com.example.luminosity.paging.FeedRemoteMediator
+import com.example.luminosity.paging.SearchRemoteMediator
 import com.skillbox.github.utils.haveQ
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -29,57 +28,38 @@ class PhotoRepository @Inject constructor(
     private val unsplashApi: UnsplashApi,
     private val unsplashDatabase: UnsplashDatabase,
     private val context: Application) {
-
+    /**
+     * Search repositories whose names match the query, exposed as a stream of data that will emit
+     * every time we get more data from the network.
+     */
     @ExperimentalPagingApi
-    fun getListPhoto(): Flow<PagingData<Photo>> {
-        val pagingSourceFactory = { unsplashDatabase.unsplashImageDao().getAllImages() }
-        return Pager(
-            config = PagingConfig(pageSize = ITEMS_PER_PAGE),
-            remoteMediator = RemoteMediator(
-                unsplashApi = unsplashApi,
-                unsplashDatabase = unsplashDatabase
-            ),
-            pagingSourceFactory = pagingSourceFactory
-        ).flow
-    }
-
-    fun getListSearchPhoto(query: String): Flow<PagingData<Photo>> {
-        return Pager(
-            config = PagingConfig(pageSize = ITEMS_PER_PAGE),
-            pagingSourceFactory = {
-                SearchPagingSource(unsplashApi = unsplashApi, query = query)
-            }
-        ).flow
-    }
-
-    suspend fun getListCollections(page: Int): List<CollectionPhoto> {
-        return withContext(SupervisorJob()+ Dispatchers.IO) {
-            unsplashApi.getListCollections(page)
+    fun getSearchResultStream(query: String): Flow<PagingData<Photo>> {
+        if (query == DEFAULT_QUERY) {
+            val pagingSourceFactory = { unsplashDatabase.unsplashImageDao().getAllImages() }
+            return Pager(
+                config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
+                remoteMediator = FeedRemoteMediator(
+                    unsplashApi = unsplashApi,
+                    unsplashDatabase = unsplashDatabase
+                ),
+                pagingSourceFactory = pagingSourceFactory
+            ).flow
+        } else {
+            val pagingSourceFactory = { unsplashDatabase.unsplashImageDao().getAllImages() }
+            return Pager(
+                config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
+                remoteMediator = SearchRemoteMediator(
+                    query = query,
+                    api = unsplashApi,
+                    database = unsplashDatabase
+                ),
+                pagingSourceFactory = pagingSourceFactory
+            ).flow
         }
     }
 
-    suspend fun getListPhotosInCollection(idCollection: String, page: Int): List<Photo> {
-        return withContext(SupervisorJob()+ Dispatchers.IO) {
-            unsplashApi.getListPhotosInCollection(idCollection,page)
-        }
-    }
-
-    suspend fun getUserProfile(): UserProfile {
-        return withContext(SupervisorJob()+ Dispatchers.IO) {
-            unsplashApi.getUserProfile()
-        }
-    }
-
-    suspend fun getDetailProfile(userName: String): DetailUserProfile {
-        return withContext(SupervisorJob()+ Dispatchers.IO) {
-            unsplashApi.getDetailUserProfile(userName)
-        }
-    }
-
-    suspend fun getListLikePhoto(userName: String, page: Int): List<Photo> {
-        return withContext(SupervisorJob()+ Dispatchers.IO) {
-            unsplashApi.getListUsersLikesPhotos(userName,page)
-        }
+    companion object {
+        const val NETWORK_PAGE_SIZE = 5
     }
 
     suspend fun postLikeToPhoto(id: String): Int {
@@ -90,6 +70,12 @@ class PhotoRepository @Inject constructor(
     suspend fun deleteLikeToPhoto(id: String): Int {
         val response = unsplashApi.deleteLikeToPhoto(id)
         return response.code()
+    }
+
+    suspend fun getPhotoDetails(id: String): PhotoDetails {
+        return withContext(SupervisorJob()+ Dispatchers.IO) {
+            unsplashApi.getPhotoDetails(id)
+        }
     }
 
     private suspend fun downloadImage(url: String, uri: Uri): Int {
@@ -157,3 +143,5 @@ class PhotoRepository @Inject constructor(
         context.contentResolver.update(imageUri, imageDetails, null, null)
     }
 }
+
+private const val DEFAULT_QUERY = ""

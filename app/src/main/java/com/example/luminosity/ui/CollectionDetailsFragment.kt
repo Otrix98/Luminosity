@@ -9,7 +9,4 @@ import com.example.scopedstorage.utils.ViewBindingFragment
 
 class CollectionDetailsFragment:  ViewBindingFragment<FragmentCollectionDetailBinding>(FragmentCollectionDetailBinding::inflate) {
 
-    private var contactsAdapter: FeedAdapter by AutoClearedValue(this)
-
-    private val viewModel: FeedViewModel by viewModels()
 }

@@ -19,4 +19,18 @@
     <string name="snack_retry">Повторить</string>
     <string name="snack_updated">Список обновлен</string>
     <string name="share_image_link">Поделиться ссылкой на изображение</string>
+    <string name="retry">Повторить</string>
+    <string name="no_results">Пусто</string>
+    <string name="search_hint">Поиск изображений</string>
+    <string name="locationTextView">San Francisco, CA</string>
+    <string name="tags">#tags #tags #tags #tags #tags #tags</string>
+    <string name="made_with">Снято на: </string>
+    <string name="model">Модель: </string>
+    <string name="exposure">Экспозиция: </string>
+    <string name="aperture">Апертура: </string>
+    <string name="focal_length">Фокусное расстояние: </string>
+    <string name="about_author">Об авторе @</string>
+    <string name="author_description">Dreamer, creator. Strong man, stronger passion.</string>
+    <string name="iso">ИСО: </string>
+    <string name="download">Скачать (</string>
 </resources>

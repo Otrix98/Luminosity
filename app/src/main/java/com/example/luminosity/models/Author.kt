@@ -10,5 +10,6 @@ data class Author(
     val username: String,
     val name: String,
     @Embedded
-    val profile_image: ProfileImage
+    val profile_image: ProfileImage,
+    val bio: String? = ""
 )

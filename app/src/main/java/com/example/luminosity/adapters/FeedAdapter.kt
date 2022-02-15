@@ -104,13 +104,38 @@ class FeedAdapter(
            }
            binding.likePhotoButton.setOnClickListener {
                photo?.let { photo -> listener?.onClickLike(photo, absoluteAdapterPosition)}
+               binding.likePhotoButton.isVisible = false
+               binding.unlikePhotoButton.isVisible = true
            }
            binding.unlikePhotoButton.setOnClickListener {
                photo?.let { photo -> listener?.onClickLike(photo, absoluteAdapterPosition)}
+               binding.likePhotoButton.isVisible = true
+               binding.unlikePhotoButton.isVisible = false
            }
-           binding.imageItemInfo.setOnClickListener {
-               photo?.let { photo -> listener?.onClickInfo(photo)}
+           binding.shadowRectangle.setOnClickListener {
+               if (photo != null) {
+                   openAuthorProfile(photo)
+               }
            }
+           binding.profileImage.setOnClickListener {
+               if (photo != null) {
+                   openAuthorProfile(photo)
+               }
+           }
+           binding.authorLogin.setOnClickListener {
+               if (photo != null) {
+                   openAuthorProfile(photo)
+               }
+           }
+           binding.authorName.setOnClickListener {
+               if (photo != null) {
+                   openAuthorProfile(photo)
+               }
+           }
+       }
+
+       fun openAuthorProfile(photoForProfile: Photo) {
+           photoForProfile.let { photo -> listener?.onClickInfo(photo)}
        }
 
 

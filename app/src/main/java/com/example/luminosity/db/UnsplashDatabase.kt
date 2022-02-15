@@ -6,7 +6,7 @@ import com.example.luminosity.models.Photo
 
 @Database(entities = [
     Photo::class,
-    UnsplashRemoteKeys::class], version = 1)
+    FeedRemoteKeys::class], version = 1)
 
 abstract class UnsplashDatabase : RoomDatabase() {
 

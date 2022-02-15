@@ -7,12 +7,12 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.luminosity.data.Constants.ITEMS_PER_PAGE
 import com.example.luminosity.db.UnsplashDatabase
-import com.example.luminosity.db.UnsplashRemoteKeys
+import com.example.luminosity.db.FeedRemoteKeys
 import com.example.luminosity.models.Photo
 import com.example.luminosity.networking.UnsplashApi
 
 @ExperimentalPagingApi
-class RemoteMediator(
+class FeedRemoteMediator(
     private val unsplashApi: UnsplashApi,
     private val unsplashDatabase: UnsplashDatabase
 ) : RemoteMediator<Int, Photo>() {
@@ -60,7 +60,7 @@ class RemoteMediator(
                     unsplashRemoteKeysDao.deleteAllRemoteKeys()
                 }
                 val keys = response.map { unsplashImage ->
-                    UnsplashRemoteKeys(
+                    FeedRemoteKeys(
                         id = unsplashImage.id,
                         prevPage = prevPage,
                         nextPage = nextPage
@@ -77,7 +77,7 @@ class RemoteMediator(
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
         state: PagingState<Int, Photo>
-    ): UnsplashRemoteKeys? {
+    ): FeedRemoteKeys? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
                 unsplashRemoteKeysDao.getRemoteKeys(id = id)
@@ -87,7 +87,7 @@ class RemoteMediator(
 
     private suspend fun getRemoteKeyForFirstItem(
         state: PagingState<Int, Photo>
-    ): UnsplashRemoteKeys? {
+    ): FeedRemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { unsplashImage ->
                 unsplashRemoteKeysDao.getRemoteKeys(id = unsplashImage.id)
@@ -96,7 +96,7 @@ class RemoteMediator(
 
     private suspend fun getRemoteKeyForLastItem(
         state: PagingState<Int, Photo>
-    ): UnsplashRemoteKeys? {
+    ): FeedRemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { unsplashImage ->
                 unsplashRemoteKeysDao.getRemoteKeys(id = unsplashImage.id)

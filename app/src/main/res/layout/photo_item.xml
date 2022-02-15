@@ -17,7 +17,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:adjustViewBounds="true"
-        android:src="@drawable/black_square"/>
+        android:src="@drawable/no_image"/>
+
+    <ImageView
+        android:id="@+id/shadow_rectangle"
+        app:layout_constraintStart_toStartOf="@id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@id/imageView"
+        app:layout_constraintTop_toTopOf="@id/profile_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"

@@ -9,8 +9,5 @@ import com.example.scopedstorage.utils.ViewBindingFragment
 
 class ProfileFragment: ViewBindingFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
 
-    private var contactsAdapter: FeedAdapter by AutoClearedValue(this)
-
-    private val viewModel: FeedViewModel by viewModels()
 
 }

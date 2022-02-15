@@ -32,7 +32,11 @@
     <fragment
         android:id="@+id/photoDetailsFragment"
         android:name="com.example.luminosity.ui.PhotoDetailsFragment"
-        android:label="PhotoDetailsFragment" />
+        android:label="PhotoDetailsFragment" >
+        <argument
+            android:name="photoId"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.example.luminosity.ui.onboarding.SplashFragment"

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = UnsplashDatabase.UNSPLASH_REMOTE_TABLE)
-data class UnsplashRemoteKeys(
+data class FeedRemoteKeys(
     @PrimaryKey(autoGenerate = false)
     val id: String,
     val prevPage: Int?,

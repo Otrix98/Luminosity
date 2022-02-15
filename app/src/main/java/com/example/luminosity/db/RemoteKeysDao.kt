@@ -11,10 +11,10 @@ import com.example.luminosity.models.Photo
 interface RemoteKeysDao {
 
     @Query("SELECT * FROM unsplash_remote_keys_table WHERE id =:id")
-    suspend fun getRemoteKeys(id: String): UnsplashRemoteKeys
+    suspend fun getRemoteKeys(id: String): FeedRemoteKeys
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addAllRemoteKeys(remoteKeys: List<UnsplashRemoteKeys>)
+    suspend fun addAllRemoteKeys(remoteKeys: List<FeedRemoteKeys>)
 
     @Query("DELETE FROM unsplash_remote_keys_table")
     suspend fun deleteAllRemoteKeys()
