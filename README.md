@@ -1,21 +1,21 @@
-# Luminosity - дипломный проект на основе API Unsplash
+# Luminosity - graduation project based on the Unsplash API
 
-(В данный момент в процессе разработки)
+(Currently under development)
 
 ![Image alt](https://github.com/Otrix98/Luminosity/blob/master/Снимок%20экрана%202022-02-15%20в%2018.09.32.png)
 
-## **Сценарии использования:**
+## **Use cases:**
 
-- [X] Ознакомиться с основными функциями приложения на экране онбординга
-- [X] Авторизоваться
-- [X] Посмотреть список фотографий
+- [X] Get acquainted with the main functions of the application on the onboarding screen
+- [X] Authorize
+- [X] View the list of photos
 - [X] Посмотреть детальную информацию о фотографии
-- [ ] Поделиться ссылкой на фотографию
-- [ ] Открыть ссылку на фотографию в приложении
-- [ ] Скачать фотографию на устройство
-- [X] Лайкнуть фотографию
-- [X] Найти фотографию
-- [ ] Посмотреть список коллекций
-- [ ] Посмотреть список фотографий в коллекции
-- [ ] Посмотреть свой профиль и понравившиеся мне фотографии
-- [ ] Выйти из профиля
+- [ ] View detailed information about the photo
+- [ ] Open the link to the photo in the application
+- [ ] Download a photo to your device
+- [X] Like a photo
+- [X] Find a photo
+- [ ] View the list of collections
+- [ ] View the list of photos in the collection
+- [ ] View your profile and the photos you liked
+- [ ] Log out
